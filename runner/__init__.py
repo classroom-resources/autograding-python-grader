@@ -214,7 +214,7 @@ def run(indir: Directory, outdir: Directory, max_score: int, timeout_duration: i
     # run the tests and report
     reporter = ResultsReporter()
     reporter.results.max_score = max_score
-    pytest.main(_sanitize_args(args or []) + [str(tf) for tf in test_files], plugins=[reporter])
+    pytest.main(['-s'] + _sanitize_args(args or []) + [str(tf) for tf in test_files], plugins=[reporter])
 
     # dump the report
     out_file.write_text(reporter.results.as_json())
