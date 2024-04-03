@@ -29,6 +29,11 @@ TIMEOUT=$((TIMEOUT * 60))
 echo "TIMEOUT is $TIMEOUT seconds"
 echo "MAX_SCORE is $MAX_SCORE"
 
+if [ -n "$SETUP_COMMAND" ]; then
+  echo "Running setup command: $SETUP_COMMAND"
+  eval "$SETUP_COMMAND"
+fi
+
 timeout "$TIMEOUT" python3 /opt/test-runner/bin/run.py ./ ./autograding_output/ "$MAX_SCORE"
 exit_status=$?
 if [ $exit_status -eq 124 ]; then
