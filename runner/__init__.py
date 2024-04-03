@@ -198,7 +198,7 @@ def _sanitize_args(args: List[str]) -> List[str]:
     return clean
 
 
-def run(indir: Directory, outdir: Directory, max_score: int, timeout_duration: int, args: List[str]) -> None:
+def run(indir: Directory, outdir: Directory, max_score: int, args: List[str]) -> None:
     """
     Run the tests for the given exercise and produce a results.json.
     """
@@ -215,7 +215,6 @@ def run(indir: Directory, outdir: Directory, max_score: int, timeout_duration: i
     reporter = ResultsReporter()
     reporter.results.max_score = max_score
     pytest.main(['-s'] + _sanitize_args(args or []) + [str(tf) for tf in test_files], plugins=[reporter])
-
     # dump the report
     out_file.write_text(reporter.results.as_json())
     # remove cache directories

@@ -25,14 +25,15 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-echo "TIMEOUT is $TIMEOUT"
+TIMEOUT=$((TIMEOUT * 60))
+echo "TIMEOUT is $TIMEOUT seconds"
 echo "MAX_SCORE is $MAX_SCORE"
 
-if [ -n "$SETUP_COMMAND" ]; then
-  echo "Running setup command: $SETUP_COMMAND"
-  eval "$SETUP_COMMAND"
+timeout "$TIMEOUT" python3 bin/run.py ./ ./autograding_output/ "$MAX_SCORE"
+exit_status=$?
+if [ $exit_status -eq 124 ]; then
+  echo "The command took longer than $TIMEOUT seconds to execute. Please increase the timeout to avoid this error."
+  echo '{"status": "error", "message": "The command timed out"}' > autograding_output/results.json
 fi
-
-python3 /opt/test-runner/bin/run.py ./ ./autograding_output/ "$MAX_SCORE" "$TIMEOUT"
 
 echo "result=$(jq -c . autograding_output/results.json | jq -sRr @base64)" >> "$GITHUB_OUTPUT"

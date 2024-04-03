@@ -7,6 +7,7 @@ RUN pip install -r /requirements.txt
 RUN apt-get update \
  && apt-get install jq -y \
  && apt-get autoremove -y \
+ && apt-get install coreutils -y \
  && rm -rf /var/lib/apt/lists/*
 
 COPY . /opt/test-runner
