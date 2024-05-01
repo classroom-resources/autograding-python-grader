@@ -42,7 +42,7 @@ jobs:
       uses: actions/checkout@v4
     - name: Python test
       id: python-test
-      uses: education/autograding-python-grader@v1
+      uses: classroom-resources/autograding-python-grader@v1
       with:
         timeout: '15'
         max-score: '100'
